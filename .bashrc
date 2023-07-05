@@ -19,5 +19,6 @@ alias jestFast='npm test -- --maxWorkers=50%'
 # Tracking my .dotfiles in git
 # To set this up, first run `git init --bare $HOME/.cfg`,
 # then run `config config --local status.showUntrackedFiles no`
+# https://www.atlassian.com/git/tutorials/dotfiles
 alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
