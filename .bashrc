@@ -22,3 +22,14 @@ alias jestFast='npm test -- --maxWorkers=50%'
 # https://www.atlassian.com/git/tutorials/dotfiles
 alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
+
+cleanupbranches(){
+	#!/bin/bash
+
+	git fetch -p
+	for b in $(git for-each-ref --format='%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' refs/heads)
+	do
+	  git branch -d $b
+	done
+}
+
