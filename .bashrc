@@ -2,9 +2,15 @@ alias ls='ls -F --color=auto --show-control-chars'
 alias ll='ls -l'
 alias la='ls -a'
 
+# Delete all files in directory including dotfiles, but excluding . and ..
+alias rmall='rm -rf -- ..?* .[!.]* *'
+
 # For Windows (Using Git Bash)
 alias p7='pwsh'
 alias p5='powershell'
+
+# For Git
+alias forcepush='git push --force-with-lease'
 
 # Easily switching and checking AWS Profiles
 alias ap='printenv AWS_PROFILE'
@@ -37,11 +43,13 @@ cheatsheet(){
 	if [ "$1" = "rebase" ]; then
 		echo "1. git stash your change"
 		echo "2. git rebase -i HEAD~10 (replace 10 with commit you want to edit)"
-		echo "3. mark the commit you want to change with 'edit' (replace 'pick')"
+		echo " (Optionally, include the '-r' flag to include merge commits, and replace the 'merge -C' with 'merge -c' on those merge commits that you'd like to rename.)"
+		echo "3. replace 'pick' on the commit(s) you want to change with 'edit' (if you want to edit the code) or 'reword' (if you just want to edit the commit message)"
 		echo "4. save the rebase file"
 		echo "5. git stash pop, make your change"
 		echo "6. git add <file>, then git commit --amend --no-edit"
 		echo "7. git rebase --continue"
+		echo "If anything goes wrong, you can use 'git rebase --abort'"
 	elif [ "$1" = "dockercache" ]; then
 		echo "docker-compose down --rmi local"
 		echo "docker-compose up -d --force-recreate  --renew-anon-volumes"
@@ -50,4 +58,13 @@ cheatsheet(){
 		echo "dockercache"
 	fi
 }
+
+# Shortcuts for terraform commands that I run frequently
+alias tfavd='terraform apply --var-file=dev.tfvars'
+alias tfavp='terraform apply --var-file=prd.tfvars'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+alias tfv='terraform --version'
+
 
