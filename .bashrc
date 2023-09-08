@@ -2,15 +2,19 @@ alias ls='ls -F --color=auto --show-control-chars'
 alias ll='ls -l'
 alias la='ls -a'
 
+alias nvm='~/nvm/bin/nvm.cmd'
+
 # Delete all files in directory including dotfiles, but excluding . and ..
 alias rmall='rm -rf -- ..?* .[!.]* *'
 
 # For Windows (Using Git Bash)
-alias p7='pwsh'
-alias p5='powershell'
+alias ps7='pwsh'
+alias ps5='powershell'
 
 # For Git
 alias forcepush='git push --force-with-lease'
+# runs a git clean but doesn't delete the .idea directory. Normally git clean would delete this folder which would delete untracked run configuration files.
+alias safeclean='git clean -dfX -e \!.idea -e \!.idea/workspace.xml'
 
 # Easily switching and checking AWS Profiles
 alias ap='printenv AWS_PROFILE'
