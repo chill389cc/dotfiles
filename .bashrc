@@ -1,4 +1,4 @@
-alias ls='ls -F --color=auto --show-control-chars'
+alias ls='ls -F --color=auto' 
 alias ll='ls -l'
 alias la='ls -a'
 
@@ -72,4 +72,10 @@ alias tfp='terraform plan'
 alias tfa='terraform apply'
 alias tfv='terraform --version'
 
+# Commands for converting markdown to pdf with pandoc
+
+# Accepts a parameter which is the name of your markdown file, without the extension. Will create a pdf with the same name. Uses xelatex so there are no issues with using special characters like greek letters.
+md2pdf(){
+	pandoc $1.md --pdf-engine=xelatex -o $1.pdf
+}
 
