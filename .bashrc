@@ -58,9 +58,16 @@ cheatsheet(){
 	elif [ "$1" = "dockercache" ]; then
 		echo "docker-compose down --rmi local"
 		echo "docker-compose up -d --force-recreate  --renew-anon-volumes"
+	elif [ "$1" = "shortcut" ]; then
+		echo "make a .url file and put this in it:"
+		echo "[InternetShortcut]"
+		echo "URL="
+		echo ""
+		echo "And then add the url to the website after the equals sign"
 	else
 		echo "rebase"
 		echo "dockercache"
+		echo "shortcut"
 	fi
 }
 
