@@ -86,3 +86,8 @@ md2pdf(){
 	pandoc $1.md --pdf-engine=xelatex -o $1.pdf
 }
 
+# Mac Commands
+
+# Open 'Finder' pointing to the current directory
+alias finder='open .'
+
