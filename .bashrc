@@ -31,7 +31,8 @@ alias jestserial='npm test -- --runInBand'
 # To set this up, first run `git init --bare $HOME/.cfg`,
 # then run `config config --local status.showUntrackedFiles no`
 # https://www.atlassian.com/git/tutorials/dotfiles
-alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dfwin='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dfmac='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Git branch cleanup script
 cleanupbranches(){
