@@ -2,14 +2,33 @@ alias ls='ls -F --color=auto'
 alias ll='ls -l'
 alias la='ls -a'
 
-alias nvm='~/nvm/bin/nvm.cmd'
+# Tracking my .dotfiles in git
+# To set this up, first run `git init --bare $HOME/.cfg`,
+# then run `config config --local status.showUntrackedFiles no`
+# https://www.atlassian.com/git/tutorials/dotfiles
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # linux stuff
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+	alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+	# Open a finder window pointed at the current terminal location
+	alias finder='open .'
+elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+        # cygwin - POSIX compatibility layer and Linux environment emulation for Windows
+        # mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+	# This is necessary for using github.com/jchip/nvm in the embedded terminal in jetbrains apps
+	alias nvm='~/nvm/bin/nvm.cmd'
+	# Easily open different versions of powershell
+	alias ps7='pwsh'
+	alias ps5='powershell'
+else
+        # Unknown.
+fi # https://stackoverflow.com/a/8597411/6901706
+
 
 # Delete all files in directory including dotfiles, but excluding . and ..
 alias rmall='rm -rf -- ..?* .[!.]* *'
-
-# For Windows (Using Git Bash)
-alias ps7='pwsh'
-alias ps5='powershell'
 
 # For Git
 alias forcepush='git push --force-with-lease'
@@ -26,13 +45,6 @@ setap(){
 # Quickly running jest tests with less overhead for a faster run
 alias jestfast='npm test -- --maxWorkers=50% --testTimeout=10000'
 alias jestserial='npm test -- --runInBand'
-
-# Tracking my .dotfiles in git
-# To set this up, first run `git init --bare $HOME/.cfg`,
-# then run `config config --local status.showUntrackedFiles no`
-# https://www.atlassian.com/git/tutorials/dotfiles
-alias dfwin='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias dfmac='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Git branch cleanup script
 cleanupbranches(){
@@ -85,9 +97,4 @@ alias tfv='terraform --version'
 md2pdf(){
 	pandoc $1.md --pdf-engine=xelatex -o $1.pdf
 }
-
-# Mac Commands
-
-# Open 'Finder' pointing to the current directory
-alias finder='open .'
 
