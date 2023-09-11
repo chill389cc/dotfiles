@@ -8,12 +8,13 @@ alias la='ls -a'
 # https://www.atlassian.com/git/tutorials/dotfiles
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # linux stuff
+	echo "custom .bashrc aliases for linux not yet created. Some OS-specific things will not be loaded."
 elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
 	alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 	# Open a finder window pointed at the current terminal location
 	alias finder='open .'
-elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
         # cygwin - POSIX compatibility layer and Linux environment emulation for Windows
         # mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -24,6 +25,7 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "mysys" ]] || [[ "$OSTYPE" =
 	alias ps5='powershell'
 else
         # Unknown.
+	echo "using unknown os, some parts of .bashrc will not be loaded"
 fi # https://stackoverflow.com/a/8597411/6901706
 
 # Delete all files in directory including dotfiles, but excluding . and ..
