@@ -23,6 +23,8 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	# Easily open different versions of powershell
 	alias ps7='pwsh'
 	alias ps5='powershell'
+	# Emulate the macos 'open' command:
+	alias open='start ""'
 else
         # Unknown.
 	echo "using unknown os, some parts of .bashrc will not be loaded"
@@ -106,6 +108,10 @@ alias tfv='terraform --version'
 
 # Accepts a parameter which is the name of your markdown file, without the extension. Will create a pdf with the same name. Uses xelatex so there are no issues with using special characters like greek letters.
 md2pdf(){
+	# this requires pandoc and the xelatex engine.
+	# Mac: install with `brew install xelatex`. xelatext should be installed already.
+	# Windows: install xelatex following these instructions: https://stackoverflow.com/a/60687165/6901706
+	#   then install pandoc here: https://github.com/jgm/pandoc/releases
 	pandoc $1.md --pdf-engine=xelatex -o $1.pdf
 }
 
