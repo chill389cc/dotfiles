@@ -26,13 +26,15 @@ else
         # Unknown.
 fi # https://stackoverflow.com/a/8597411/6901706
 
-
 # Delete all files in directory including dotfiles, but excluding . and ..
 alias rmall='rm -rf -- ..?* .[!.]* *'
 
 # For Git
 alias forcepush='git push --force-with-lease'
+alias safepush='git push --force-with-lease'
+
 # runs a git clean but doesn't delete the .idea directory. Normally git clean would delete this folder which would delete untracked run configuration files.
+# oddly, the first exclusion rule doesn't exclude .idea/workspace.xml so the second exclusion rule is necessary
 alias safeclean='git clean -dfX -e \!.idea -e \!.idea/workspace.xml'
 
 # Easily switching and checking AWS Profiles
@@ -76,8 +78,15 @@ cheatsheet(){
 		echo "URL="
 		echo ""
 		echo "And then add the url to the website after the equals sign"
+	elif [ "$1" = "git-push-remote" ]; then
+		echo "git config --global push.autoSetupRemote true"
+	elif [ "$1" = "git-untrack" ]; then
+		echo "git rm --cached <path_to_files>"
+		echo "optionally add the '-r' flag if untracking folders."
 	else
 		echo "rebase"
+		echo "git-push-remote"
+		echo "git-untrack"
 		echo "dockercache"
 		echo "shortcut"
 	fi
