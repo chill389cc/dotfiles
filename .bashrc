@@ -116,3 +116,7 @@ md2pdf(){
 	# As you can see, this command also replaces <sup>/<sub> tags with ^/~ because those are the tags that pandoc interprets for superscript and subscript
 }
 
+# Add some quick grep commands
+
+# "Grep Wide" - This one just does grep but acts more like 'head' in returning 10 lines surrounding the found result as opposed to just the result of the line
+alias grepw='grep -C 5'
