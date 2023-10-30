@@ -14,6 +14,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 	# Open a finder window pointed at the current terminal location
 	alias finder='open .'
+	zipfolder(){
+		zip -vXr $1.zip $1/
+	}
 elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
         # cygwin - POSIX compatibility layer and Linux environment emulation for Windows
         # mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
@@ -112,7 +115,7 @@ md2pdf(){
 	# Mac: install with `brew install xelatex`. xelatext should be installed already.
 	# Windows: install xelatex following these instructions: https://stackoverflow.com/a/60687165/6901706
 	#   then install pandoc here: https://github.com/jgm/pandoc/releases
-	sed -e 's/<sub>/~/g' -e 's!</sub>!~!g' -e 's/<sup>/^/g' -e 's!</sup>!^!g' $1.md | pandoc --from=markdown --pdf-engine=xelatex -o $1.pdf
+	sed -e 's/<sub>/~/g' -e 's!</sub>!~!g' -e 's/<sup>/^/g' -e 's!</sup>!^!g' $1.md | pandoc --from=markdown-implicit_figures --pdf-engine=xelatex -o $1.pdf
 	# As you can see, this command also replaces <sup>/<sub> tags with ^/~ because those are the tags that pandoc interprets for superscript and subscript
 }
 
