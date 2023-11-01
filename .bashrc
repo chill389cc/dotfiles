@@ -18,6 +18,12 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 		zip -vXr $1.zip $1/
 	}
 elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+	# Note that for .bashrc to be loaded in all git bash terminals on windows, you'll have to add the following
+	# line to the following file (I think this makes sure it is loaded in IDE embedded terminals and other
+	# integrated git bash terminals):
+	# File: C:\Users\<user>\AppData\Local\Program\Git\etc\profile.d\aliases.sh
+	# Line: source ~/.bashrc
+
         # cygwin - POSIX compatibility layer and Linux environment emulation for Windows
         # mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
