@@ -35,7 +35,7 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	# Emulate the macos 'open' command:
 	alias open='start ""'
 else
-        # Unknown.
+	# Unknown.
 	echo "using unknown os, some parts of .bashrc will not be loaded"
 fi # https://stackoverflow.com/a/8597411/6901706
 
