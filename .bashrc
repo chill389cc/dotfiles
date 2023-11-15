@@ -24,8 +24,8 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	# File: C:\Users\<user>\AppData\Local\Program\Git\etc\profile.d\aliases.sh
 	# Line: source ~/.bashrc
 
-        # cygwin - POSIX compatibility layer and Linux environment emulation for Windows
-        # mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+	# cygwin - POSIX compatibility layer and Linux environment emulation for Windows
+	# mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 	# This is necessary for using github.com/jchip/nvm in the embedded terminal in jetbrains apps
 	alias nvm='~/nvm/bin/nvm.cmd'
@@ -35,7 +35,7 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	# Emulate the macos 'open' command:
 	alias open='start ""'
 else
-        # Unknown.
+	# Unknown.
 	echo "using unknown os, some parts of .bashrc will not be loaded"
 fi # https://stackoverflow.com/a/8597411/6901706
 
