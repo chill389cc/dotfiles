@@ -96,12 +96,16 @@ cheatsheet(){
 	elif [ "$1" = "git-untrack" ]; then
 		echo "git rm --cached <path_to_files>"
 		echo "optionally add the '-r' flag if untracking folders."
+	elif [ "$1" = "bash-tricks" ]; then
+		echo "!<command> - re-run the last command matching type <command>"
+		echo "^A^B - re-run the last command, replacing A with B"
 	else
 		echo "rebase"
 		echo "git-push-remote"
 		echo "git-untrack"
 		echo "dockercache"
 		echo "shortcut"
+		echo "bash-tricks"
 	fi
 }
 
