@@ -56,6 +56,7 @@ setap(){
 	export AWS_PROFILE=$1;
 	echo AWS_PROFILE=$(printenv AWS_PROFILE);
 }
+alias asl='aws sso login'
 
 # Quickly running jest tests with less overhead for a faster run
 alias jestfast='npm test -- --maxWorkers=50% --testTimeout=10000'
