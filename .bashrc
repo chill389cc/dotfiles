@@ -58,7 +58,7 @@ setap(){
 }
 alias asl='aws sso login'
 pname(){
-	local output=$(cat ~/.aws/config | grep -C 3 $1 | head -n 1 | sed -n 's/\[profile \(.*\)\]/\1/p')
+	local output=$(cat ~/.aws/config | grep -B 3 $1 | head -n 1 | sed -n 's/\[profile \(.*\)\]/\1/p')
 	if [ -n "$output" ]; then
 		echo "$output"
 	else
