@@ -51,18 +51,28 @@ alias safepush='git push --force-with-lease'
 alias safeclean='git clean -dfX -e \!.idea -e \!.idea/workspace.xml'
 
 # Easily switching and checking AWS Profiles
+export MISSING_PROFILE_ERROR="Profile not found"
 alias ap='printenv AWS_PROFILE'
 setap(){
 	export AWS_PROFILE=$1;
 	echo AWS_PROFILE=$(printenv AWS_PROFILE);
 }
+setapn(){
+	local output=$(pname $1)
+	if [ "$output" == "$MISSING_PROFILE_ERROR" ]; then
+		echo "Error: $MISSING_PROFILE_ERROR" >&2
+	else
+		setap "$output"
+	fi
+}
+	
 alias asl='aws sso login'
 pname(){
 	local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed --quiet 's/\[profile \(.*\)\]/\1/p')
 	if [ -n "$output" ]; then
 		echo "$output"
 	else
-		echo "Profile not found"
+		echo "$MISSING_PROFILE_ERROR" >&2
 	fi
 }
 
@@ -125,6 +135,8 @@ alias tfi='terraform init'
 alias tfp='terraform plan'
 alias tfa='terraform apply'
 alias tfv='terraform --version'
+alias tffr='terraform fmt -recursive'
+alias tflint='tffr'
 
 # Commands for converting markdown to pdf with pandoc
 
