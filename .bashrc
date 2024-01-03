@@ -2,6 +2,8 @@ alias ls='ls -F --color=auto'
 alias ll='ls -l'
 alias la='ls -a'
 
+export MISSING_PROFILE_ERROR="Profile not found"
+
 # Tracking my .dotfiles in git
 # To set this up, first run `git init --bare $HOME/.cfg`,
 # then run `config config --local status.showUntrackedFiles no`
@@ -16,6 +18,15 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 	alias finder='open .'
 	zipfolder(){
 		zip -vXr $1.zip $1/
+	}
+
+	pname(){
+		local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed -n 's/\[profile \(.*\)\]/\1/p')
+		if [ -n "$output" ]; then
+			echo "$output"
+		else
+			echo "$MISSING_PROFILE_ERROR" >&2
+		fi
 	}
 elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
 	# Note that for .bashrc to be loaded in all git bash terminals on windows, you'll have to add the following
@@ -34,6 +45,15 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	alias ps5='powershell'
 	# Emulate the macos 'open' command:
 	alias open='start ""'
+
+	pname(){
+		local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed --quiet 's/\[profile \(.*\)\]/\1/p')
+		if [ -n "$output" ]; then
+			echo "$output"
+		else
+			echo "$MISSING_PROFILE_ERROR" >&2
+		fi
+	}
 else
 	# Unknown.
 	echo "using unknown os, some parts of .bashrc will not be loaded"
@@ -51,7 +71,6 @@ alias safepush='git push --force-with-lease'
 alias safeclean='git clean -dfX -e \!.idea -e \!.idea/workspace.xml'
 
 # Easily switching and checking AWS Profiles
-export MISSING_PROFILE_ERROR="Profile not found"
 alias ap='printenv AWS_PROFILE'
 setap(){
 	export AWS_PROFILE=$1;
@@ -59,7 +78,7 @@ setap(){
 }
 setapn(){
 	local output=$(pname $1)
-	if [ "$output" == "$MISSING_PROFILE_ERROR" ]; then
+	if [[ "$output" == "$MISSING_PROFILE_ERROR" || "$output" == "" ]]; then
 		echo "Error: $MISSING_PROFILE_ERROR" >&2
 	else
 		setap "$output"
@@ -67,14 +86,6 @@ setapn(){
 }
 	
 alias asl='aws sso login'
-pname(){
-	local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed --quiet 's/\[profile \(.*\)\]/\1/p')
-	if [ -n "$output" ]; then
-		echo "$output"
-	else
-		echo "$MISSING_PROFILE_ERROR" >&2
-	fi
-}
 
 # Quickly running jest tests with less overhead for a faster run
 alias jestfast='npm test -- --maxWorkers=50% --testTimeout=10000'
