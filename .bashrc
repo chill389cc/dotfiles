@@ -39,7 +39,7 @@ elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" ==
 	# mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 	# This is necessary for using github.com/jchip/nvm in the embedded terminal in jetbrains apps
-	alias nvm='~/nvm/bin/nvm.cmd'
+	#alias nvm='~/nvm/bin/nvm.cmd'
 	# Easily open different versions of powershell
 	alias ps7='pwsh'
 	alias ps5='powershell'
@@ -165,3 +165,7 @@ md2pdf(){
 
 # "Grep Wide" - This one just does grep but acts more like 'head' in returning 10 lines surrounding the found result as opposed to just the result of the line
 alias grepw='grep -C 5'
+
+if [ -t 1 ]; then
+	exec zsh
+fi

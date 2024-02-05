@@ -1,6 +1,3 @@
-# load .bashrc since that is where I keep my custom things:
-source ~/.bashrc
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -88,6 +85,8 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
+# source ~/.bashrc
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
@@ -110,30 +109,177 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+alias ls='ls -F --color=auto' 
+alias ll='ls -l'
+alias la='ls -a'
+
+export MISSING_PROFILE_ERROR="Profile not found"
+
+# Tracking my .dotfiles in git
+# To set this up, first run `git init --bare $HOME/.cfg`,
+# then run `config config --local status.showUntrackedFiles no`
+# https://www.atlassian.com/git/tutorials/dotfiles
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # linux stuff
+	echo "custom .bashrc aliases for linux not yet created. Some OS-specific things will not be loaded."
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+	alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+	# Open a finder window pointed at the current terminal location
+	alias finder='open .'
+	zipfolder(){
+		zip -vXr $1.zip $1/
+	}
+
+	pname(){
+		local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed -n 's/\[profile \(.*\)\]/\1/p')
+		if [ -n "$output" ]; then
+			echo "$output"
+		else
+			echo "$MISSING_PROFILE_ERROR" >&2
+		fi
+	}
+elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+	# Note that for .bashrc to be loaded in all git bash terminals on windows, you'll have to add the following
+	# line to the following file (I think this makes sure it is loaded in IDE embedded terminals and other
+	# integrated git bash terminals):
+	# File: C:\Users\<user>\AppData\Local\Program\Git\etc\profile.d\aliases.sh
+	# Line: source ~/.bashrc
+
+	# cygwin - POSIX compatibility layer and Linux environment emulation for Windows
+	# mysys - Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+	alias dotfiles='~/AppData/Local/Programs/Git/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+	# This is necessary for using github.com/jchip/nvm in the embedded terminal in jetbrains apps
+	alias nvm='~/nvm/bin/nvm.cmd'
+	# Easily open different versions of powershell
+	alias ps7='pwsh'
+	alias ps5='powershell'
+	# Emulate the macos 'open' command:
+	alias open='start ""'
+
+	pname(){
+		local output=$(cat ~/.aws/config | grep --before-context 3 $1 | head --lines 1 | sed --quiet 's/\[profile \(.*\)\]/\1/p')
+		if [ -n "$output" ]; then
+			echo "$output"
+		else
+			echo "$MISSING_PROFILE_ERROR" >&2
+		fi
+	}
+else
+	# Unknown.
+	echo "using unknown os, some parts of .bashrc will not be loaded"
+fi # https://stackoverflow.com/a/8597411/6901706
+
+# Delete all files in directory including dotfiles, but excluding . and ..
+alias rmall='rm -rf -- ..?* .[!.]* *'
+
+# For Git
+alias forcepush='git push --force-with-lease'
+alias safepush='git push --force-with-lease'
+
+# runs a git clean but doesn't delete the .idea directory. Normally git clean would delete this folder which would delete untracked run configuration files.
+# oddly, the first exclusion rule doesn't exclude .idea/workspace.xml so the second exclusion rule is necessary
+alias safeclean='git clean -dfX -e \!.idea -e \!.idea/workspace.xml'
+
+# Easily switching and checking AWS Profiles
+alias ap='printenv AWS_PROFILE'
+setap(){
+	export AWS_PROFILE=$1;
+	echo AWS_PROFILE=$(printenv AWS_PROFILE);
+}
+setapn(){
+	local output=$(pname $1)
+	if [[ "$output" == "$MISSING_PROFILE_ERROR" || "$output" == "" ]]; then
+		echo "Error: $MISSING_PROFILE_ERROR" >&2
+	else
+		setap "$output"
+	fi
+}
+	
+alias asl='aws sso login'
+
+# Quickly running jest tests with less overhead for a faster run
+alias jestfast='npm test -- --maxWorkers=50% --testTimeout=10000'
+alias jestserial='npm test -- --runInBand'
+
+# Git branch cleanup script
+cleanupbranches(){
+	git fetch -p
+	for b in $(git for-each-ref --format='%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' refs/heads)
+	do
+	  git branch -d $b
+	done
+}
+
+# Personal 'help' text for things I commonly do in the terminal
+cheatsheet(){
+	if [ "$1" = "rebase" ]; then
+		echo "1. git stash your change"
+		echo "2. git rebase -i HEAD~10 (replace 10 with commit you want to edit)"
+		echo " (Optionally, include the '-r' flag to include merge commits, and replace the 'merge -C' with 'merge -c' on those merge commits that you'd like to rename.)"
+		echo "3. replace 'pick' on the commit(s) you want to change with 'edit' (if you want to edit the code) or 'reword' (if you just want to edit the commit message)"
+		echo "4. save the rebase file"
+		echo "5. git stash pop, make your change"
+		echo "6. git add <file>, then git commit --amend --no-edit"
+		echo "7. git rebase --continue"
+		echo "If anything goes wrong, you can use 'git rebase --abort'"
+	elif [ "$1" = "dockercache" ]; then
+		echo "docker-compose down --rmi local"
+		echo "docker-compose up -d --force-recreate  --renew-anon-volumes"
+	elif [ "$1" = "shortcut" ]; then
+		echo "make a .url file and put this in it:"
+		echo "[InternetShortcut]"
+		echo "URL="
+		echo ""
+		echo "And then add the url to the website after the equals sign"
+	elif [ "$1" = "git-push-remote" ]; then
+		echo "git config --global push.autoSetupRemote true"
+	elif [ "$1" = "git-untrack" ]; then
+		echo "git rm --cached <path_to_files>"
+		echo "optionally add the '-r' flag if untracking folders."
+	elif [ "$1" = "command-lookup" ]; then
+		echo "'command -v <command>' shell built-in, shows you how the command you specified will be executed (i.e. which file)"
+		echo "'which <command>' external binary, steps through $PATH and shows you what you are about to run"
+	elif [ "$1" = "bash-tricks" ]; then
+		echo "!<command> - re-run the last command matching type <command>"
+		echo "^A^B - re-run the last command, replacing A with B"
+	else
+		echo "rebase"
+		echo "git-push-remote"
+		echo "git-untrack"
+		echo "dockercache"
+		echo "shortcut"
+		echo "bash-tricks"
+		echo "command-lookup"
+	fi
+}
+
+# Shortcuts for terraform commands that I run frequently
+alias tfavd='terraform apply --var-file=dev.tfvars'
+alias tfavp='terraform apply --var-file=prd.tfvars'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+alias tfv='terraform --version'
+alias tffr='terraform fmt -recursive'
+alias tflint='tffr'
+
+# Commands for converting markdown to pdf with pandoc
+
+# Accepts a parameter which is the name of your markdown file, without the extension. Will create a pdf with the same name. Uses xelatex so there are no issues with using special characters like greek letters.
+md2pdf(){
+	# this requires pandoc and the xelatex engine.
+	# Mac: install with `brew install xelatex`. xelatext should be installed already.
+	# Windows: install xelatex following these instructions: https://stackoverflow.com/a/60687165/6901706
+	#   then install pandoc here: https://github.com/jgm/pandoc/releases
+	sed -e 's/<sub>/~/g' -e 's!</sub>!~!g' -e 's/<sup>/^/g' -e 's!</sup>!^!g' $1.md | pandoc --from=markdown-implicit_figures --pdf-engine=xelatex -o $1.pdf
+	# As you can see, this command also replaces <sup>/<sub> tags with ^/~ because those are the tags that pandoc interprets for superscript and subscript
+}
+
+# Add some quick grep commands
+
+# "Grep Wide" - This one just does grep but acts more like 'head' in returning 10 lines surrounding the found result as opposed to just the result of the line
+alias grepw='grep -C 5'
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH="/opt/homebrew/opt/mongodb-community@4.4/bin:$PATH"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-source /Users/chill/.oh-my-zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/chill/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/chill/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/chill/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/chill/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
