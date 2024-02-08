@@ -255,14 +255,19 @@ cheatsheet(){
 }
 
 # Shortcuts for terraform commands that I run frequently
-alias tfavd='terraform apply --var-file=dev.tfvars'
-alias tfavp='terraform apply --var-file=prd.tfvars'
 alias tfi='terraform init'
+alias tfir='terraform init -reconfigure'
+alias tfid='terraform init -backend-config=dev.s3.tfbackend'
+alias tfip='terraform init -backend-config=prd.s3.tfbackend'
+alias tfird='terraform init -backend-config=dev.s3.tfbackend -reconfigure'
+alias tfirp='terraform init -backend-config=prd.s3.tfbackend -reconfigure'
 alias tfp='terraform plan'
 alias tfa='terraform apply'
-alias tfv='terraform --version'
+alias tfavd='terraform apply --var-file=dev.tfvars'
+alias tfavp='terraform apply --var-file=prd.tfvars'
 alias tffr='terraform fmt -recursive'
-alias tflint='tffr'
+alias tflint='terraform fmt -recursive'
+alias tfv='terraform --version'
 
 # Commands for converting markdown to pdf with pandoc
 
