@@ -215,9 +215,14 @@ cleanupbranches(){
 cheatsheet(){
 	if [ "$1" = "rebase" ]; then
 		echo "1. git stash your change"
-		echo "2. git rebase -i HEAD~10 (replace 10 with commit you want to edit)"
-		echo " (Optionally, include the '-r' flag to include merge commits, and replace the 'merge -C' with 'merge -c' on those merge commits that you'd like to rename.)"
-		echo "3. replace 'pick' on the commit(s) you want to change with 'edit' (if you want to edit the code) or 'reword' (if you just want to edit the commit message)"
+		echo "2. git rebase -i HEAD~10 (replace 10 with commit you want to edit), adding the '-r' flag if you'll be editing merge commits (see Step 3)."
+		echo "3. Edit the merge file:"
+		echo "   3.1 - for editing merge commits (Make sure you used the '-r' ('--rebase-merges') flag in the rebase command):"
+		echo "      3.1.1 - to rename a merge commit, replace the relevant commit's '-C' with '-c' (after the 'merge' word)"
+		echo "      3.1.2 - to edit a merge commit, add the word 'break' after the line for the merge commit"
+		echo "   3.2 - for editing normal commits:"
+		echo "      3.2.1 - for renaming the commit: replace 'pick' on the commit(s) you want to rename with 'reword'"
+		echo "      3.2.2 - for editing the commit: replace 'pick' on the commit(s) you want to change with 'edit'"
 		echo "4. save the rebase file"
 		echo "5. git stash pop, make your change"
 		echo "6. git add <file>, then git commit --amend --no-edit"
