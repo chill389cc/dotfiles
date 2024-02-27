@@ -248,6 +248,8 @@ cheatsheet(){
 	elif [ "$1" = "bash-tricks" ]; then
 		echo "!<command> - re-run the last command matching type <command>"
 		echo "^A^B - re-run the last command, replacing A with B"
+	elif [ "$1" = "examples" ]; then
+		echo "mass file rename: for file in *.json; do mv "$file" "${file%.json}_v1.json"; done"
 	else
 		echo "rebase"
 		echo "git-push-remote"
@@ -256,6 +258,7 @@ cheatsheet(){
 		echo "shortcut"
 		echo "bash-tricks"
 		echo "command-lookup"
+		echo "examples"
 	fi
 }
 
