@@ -250,6 +250,8 @@ cheatsheet(){
 		echo "^A^B - re-run the last command, replacing A with B"
 	elif [ "$1" = "examples" ]; then
 		echo "mass file rename: for file in *.json; do mv "$file" "${file%.json}_v1.json"; done"
+	elif [ "$1" = "git-blame-history" ]; then
+		echo "git log -L <start_line_num>,<end_line_num>:path/to/file.ext"
 	else
 		echo "rebase"
 		echo "git-push-remote"
@@ -259,6 +261,7 @@ cheatsheet(){
 		echo "bash-tricks"
 		echo "command-lookup"
 		echo "examples"
+		echo "git-blame-history"
 	fi
 }
 
