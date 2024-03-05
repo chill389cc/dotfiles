@@ -139,6 +139,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 			echo "$MISSING_PROFILE_ERROR" >&2
 		fi
 	}
+	
+	# Mac nvm setup
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
 	# Note that for .bashrc to be loaded in all git bash terminals on windows, you'll have to add the following
 	# line to the following file (I think this makes sure it is loaded in IDE embedded terminals and other
@@ -299,3 +304,7 @@ alias grepw='grep -C 5'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
