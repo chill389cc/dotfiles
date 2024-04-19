@@ -28,6 +28,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 			echo "$MISSING_PROFILE_ERROR" >&2
 		fi
 	}
+
+	export PATH="$PATH:/Users/chill/Library/Application Support/terraform"
+
 elif [[ "$OSTYPE" == "cygwin" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
 	# Note that for .bashrc to be loaded in all git bash terminals on windows, you'll have to add the following
 	# line to the following file (I think this makes sure it is loaded in IDE embedded terminals and other
@@ -169,3 +172,6 @@ alias grepw='grep -C 5'
 if [ -t 1 ]; then
 	exec zsh
 fi
+
+
+

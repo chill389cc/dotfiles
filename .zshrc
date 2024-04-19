@@ -139,6 +139,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 			echo "$MISSING_PROFILE_ERROR" >&2
 		fi
 	}
+
+
+	export PATH="$PATH:/Users/chill/Library/Application Support/terraform"
 	
 	# Mac nvm setup
 	export NVM_DIR="$HOME/.nvm"
