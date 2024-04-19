@@ -142,7 +142,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 
 
 	export PATH="$PATH:/Users/chill/Library/Application Support/terraform"
-	
+	# Logitech Litra Glow Commands Setup (https://github.com/ptillemans/litra-control)
+	# Brightness only seems to work from 8-98
+	alias lc='~/bin/litra-control/target/release/litra-control'
+	export LITRA_PATH='DevSrvsID:4295791766'
 	# Mac nvm setup
 	export NVM_DIR="$HOME/.nvm"
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
